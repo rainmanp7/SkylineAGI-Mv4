@@ -1,3 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
 Math_D4,25,Range10,2053,2280,Angles,Triangles,0.76,Geometry foundations,CIter_10
 Math_D4,25,Range11,2281,2508,Circles,Polygons,0.79,Advanced geometric shapes,CIter_11
 Math_D4,25,Range12,2509,2736,Volumes,Surfaces,0.81,3D geometric concepts,CIter_12
