@@ -1,3 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
 Math_D2,15,Range4,0685,0912,Equations,Inequalities,0.80,Used in algebraic analysis,CIter_4
 Math_D2,15,Range5,0913,1140,Graphs,Functions,0.78,Visual representation of problems,CIter_5
 Math_D2,15,Range6,1141,1368,Sets,Logic,0.82,Fundamentals of discrete math,CIter_6
