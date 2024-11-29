@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Science_D2,15,Range4,0685,0912,Newton's Laws,Forces,0.85,Core principles of motion,CIter_4
+Science_D2,15,Range5,0913,1140,Acids,Bases,0.80,Concepts in chemical reactions,CIter_5
+Science_D2,15,Range6,1141,1368,Ecosystems,Biomes,0.83,Understanding ecological systems,CIter_6

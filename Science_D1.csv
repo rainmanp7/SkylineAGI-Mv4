@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Science_D1,10,Range1,0001,0228,Atoms,Molecules,0.85,Basic building blocks of matter,CIter_1
+Science_D1,10,Range2,0229,0456,Energy,Matter,0.90,Fundamental concepts of physics and chemistry,CIter_2
+Science_D1,10,Range3,0457,0684,Cells,Tissues,0.80,Foundations of biology and anatomy,CIter_3

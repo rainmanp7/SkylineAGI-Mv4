@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Science_D6,35,Range16,3421,3648,Quantum States,Particles,0.90,Subatomic particle behavior,CIter_16
+Science_D6,35,Range17,3649,3876,Photosynthesis,Respiration,0.86,Energy transformation in living organisms,CIter_17
+Science_D6,35,Range18,3877,4104,Plate Tectonics,Earthquakes,0.84,Geophysical processes on Earth,CIter_18

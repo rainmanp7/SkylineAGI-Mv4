@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Science_D5,30,Range13,2737,2964,Genetics,Chromosomes,0.85,Inheritance and genetic traits,CIter_13
+Science_D5,30,Range14,2965,3192,Thermodynamics,Heat Transfer,0.83,Energy and heat flow in systems,CIter_14
+Science_D5,30,Range15,3193,3420,Chemical Bonding,Molecular Structure,0.78,Atomic interactions and molecule formation,CIter_15

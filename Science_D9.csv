@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Science_D9,50,Range25,5473,5700,Genome Editing,CRISPR,0.92,Advanced genetic manipulation techniques,CIter_25
+Science_D9,50,Range26,5701,5928,String Theory,Relativity,0.90,Theoretical physics concepts,CIter_26
+Science_D9,50,Range27,5929,6174,Space-Time,Multiverses,0.88,Exploration of the universe's structure,CIter_27

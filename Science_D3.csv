@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Science_D3,20,Range7,1369,1596,DNA,RNA,0.88,Biological macromolecules and genetics,CIter_7
+Science_D3,20,Range8,1597,1824,Waves,Light,0.84,Electromagnetic spectrum and properties,CIter_8
+Science_D3,20,Range9,1825,2052,Reactions,Equations,0.87,Chemical equations and reactions,CIter_9

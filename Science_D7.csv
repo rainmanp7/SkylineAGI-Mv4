@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Science_D7,40,Range19,4105,4332,Nuclear Fission,Fusion,0.91,Energy release through nuclear reactions,CIter_19
+Science_D7,40,Range20,4333,4560,Hormones,Enzymes,0.87,Biological catalysts and regulation,CIter_20
+Science_D7,40,Range21,4561,4788,Climate Change,Carbon Cycle,0.79,Environmental science and atmospheric changes,CIter_21

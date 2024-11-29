@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Science_D4,25,Range10,2053,2280,Fossils,Evolution,0.79,Paleontology and evolutionary theory,CIter_10
+Science_D4,25,Range11,2281,2508,Magnetism,Electricity,0.82,Fundamentals of electromagnetism,CIter_11
+Science_D4,25,Range12,2509,2736,Plant Cells,Animal Cells,0.81,Cell biology concepts,CIter_12

@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Science_D8,45,Range22,4789,5016,Artificial Intelligence,Neural Networks,0.93,Foundations of AI and machine learning,CIter_22
+Science_D8,45,Range23,5017,5244,Circuit Boards,Microchips,0.88,Electronic devices and circuits,CIter_23
+Science_D8,45,Range24,5245,5472,Astronomy,Black Holes,0.86,Cosmology and stellar phenomena,CIter_24
