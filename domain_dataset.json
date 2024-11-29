@@ -1,13 +1,17 @@
 {
-  "dataset_domain_names": [
-    "Math_D1.csv",
-    "Math_D2.csv",
-    "Math_D3.csv",
-    "Math_D4.csv",
-    "Math_D5.csv",
-    "Math_D6.csv",
-    "Math_D7.csv",
-    "Math_D8.csv",
-    "Math_D9.csv"
-  ]
+  "domains": {
+    "Math": {
+      "datasets": [
+        "math_dataset1.csv",
+        "math_dataset2.csv",
+        "math_dataset3.csv",
+        "math_dataset4.csv",
+        "math_dataset5.csv",
+        "math_dataset6.csv",
+        "math_dataset7.csv",
+        "math_dataset8.csv",
+        "math_dataset9.csv"
+      ]
+    }
+  }
 }
