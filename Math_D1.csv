@@ -1,0 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
+Math_D1,10,Range1,0001,0228,Addition,Subtraction,0.85,Core arithmetic operations,CIter_1
+Math_D1,10,Range2,0229,0456,Multiplication,Division,0.90,High importance for calculations,CIter_2
+Math_D1,10,Range3,0457,0684,Integration,Differentiation,0.75,Advanced calculus concepts,CIter_3
