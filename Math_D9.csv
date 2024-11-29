@@ -1,3 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
 Math_D9,50,Range25,5473,5700,Fields,Groups,0.89,Abstract algebra structures,CIter_25
 Math_D9,50,Range26,5701,5928,Homomorphisms,Isomorphisms,0.92,Advanced group theory concepts,CIter_26
 Math_D9,50,Range27,5929,6174,Categories,Functors,0.87,Category theory foundations,CIter_27
