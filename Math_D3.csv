@@ -1,3 +1,4 @@
+Domain,Compx,Range,Range_Start,Range_End,atribA,atribB,weight,info,CIter
 Math_D3,20,Range7,1369,1596,Derivatives,Limits,0.88,Core differential calculus,CIter_7
 Math_D3,20,Range8,1597,1824,Probability,Statistics,0.84,Essential for data analysis,CIter_8
 Math_D3,20,Range9,1825,2052,Matrices,Vectors,0.92,Key linear algebra concepts,CIter_9
