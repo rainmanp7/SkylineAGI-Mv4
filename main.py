@@ -142,10 +142,25 @@ async def main():
        agi = SkylineAGI()
 
        # Define domains to process
-       domains = ['Math', 'Science', 'Language']
+       #domains = ['Math', 'Science', 'Language']
+domains = ['Math', 'Science']
 
+
+
+# skipped tasks because domain might not be present.
        # Create tasks for domain processing
-       tasks = [agi.process_domain(domain) for domain in domains]
+       # tasks = [agi.process_domain(domain) for domain in domains]
+
+# Filter domains to skip ones without datasets
+valid_domains = [domain for domain in domains if agi.knowledge_base.get_dataset_paths(domain)]
+
+if not valid_domains:
+    logger.warning("No valid domains with datasets found. Exiting...")
+    return
+
+# Create tasks for valid domains only
+tasks = [agi.process_domain(domain) for domain in valid_domains]
+
        
        # Wait for all domain processing to complete
        await asyncio.gather(*tasks)
