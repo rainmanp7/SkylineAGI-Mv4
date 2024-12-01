@@ -22,31 +22,6 @@ def compute_hash(data):
         print(f"Error hashing data: {e}")
         return None
 
-# Create Kernel Function
-def create_kernel(hyperparameters):
-    """
-    Create a kernel dynamically based on the hyperparameters provided.
-    
-    Parameters:
-        hyperparameters (dict): Dictionary containing kernel type and its parameters.
-        
-    Returns:
-        kernel: A Gaussian Process kernel.
-    """
-    from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
-    
-    kernel_type = hyperparameters.get("kernel_type", "RBF")
-    if kernel_type == "RBF":
-        return C(hyperparameters["kernel_constant"], (1e-3, 1e3)) * \
-               RBF(hyperparameters["kernel_length_scale"], (1e-2, 1e2))
-    elif kernel_type == "Matern":
-        from sklearn.gaussian_process.kernels import Matern
-        return C(hyperparameters["kernel_constant"], (1e-3, 1e3)) * \
-               Matern(length_scale=hyperparameters["kernel_length_scale"])
-    else:
-        raise ValueError(f"Unsupported kernel type: {kernel_type}")
-
-
 # Bayesian fit function with caching
 @lru_cache(maxsize=512)
 def cached_bayesian_fit(X_train, y_train, hyperparameters):
