@@ -1,11 +1,17 @@
-# Beginning of cache_utils.py
+# Cache_utils.py start
+
 import functools
 import hashlib
+import numpy as np
 from functools import lru_cache
+from skopt import gp_minimize
+from skopt.space import Real, Categorical, Integer
+from skopt.utils import use_named_args
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, ConstantKernel as C
+from sklearn.metrics import mean_squared_error, r2_score
 
-# Dictionary to store the previous hash of data and hyperparameters
+# Caching utilities
 cache_conditions = {
     'X_train_hash': None,
     'y_train_hash': None,
@@ -26,7 +32,7 @@ def cached_bayesian_fit(func):
     """
     Decorator for caching Bayesian optimization results.
     
-    Key Features:
+    Features:
     - Caches results based on input data hash.
     - Invalidates cache when inputs change.
     - Improves computational efficiency.
@@ -34,24 +40,19 @@ def cached_bayesian_fit(func):
     cache = {}
     
     @functools.wraps(func)
-    def wrapper(self, X_train, y_train, X_val, y_val, n_iterations, hyperparameters):
-        # Compute hashes for current inputs and hyperparameters
-        input_hash = compute_hash((X_train, y_train, X_val, y_val, n_iterations))
-        hyperparameters_hash = compute_hash(hyperparameters)
+    def wrapper(self, *args, **kwargs):
+        # Compute hash for current inputs
+        input_hash = compute_hash(args)
+        hyperparameters_hash = compute_hash(kwargs.get("hyperparameters", {}))
 
-        # Check if result is in cache
+        # Check cache conditions
         if input_hash in cache and cache_conditions['hyperparameters_hash'] == hyperparameters_hash:
+            print("Using cached results...")
             return cache[input_hash]
         
-        # Perform Bayesian optimization
-        result = func(self, X_train, y_train, X_val, y_val, n_iterations, hyperparameters)
-        
-        # Store result in cache
+        # Execute and cache result
+        result = func(self, *args, **kwargs)
         cache[input_hash] = result
-        
-        # Update cache conditions
-        cache_conditions['X_train_hash'] = compute_hash(X_train)
-        cache_conditions['y_train_hash'] = compute_hash(y_train)
         cache_conditions['hyperparameters_hash'] = hyperparameters_hash
         
         return result
@@ -63,77 +64,81 @@ def cached_bayesian_fit(func):
     wrapper.cache_clear = cache_clear
     return wrapper
 
-class HyperparameterOptimization:
-    
-    @cached_bayesian_fit
-    async def parallel_bayesian_optimization(self, X_train, y_train, X_val, y_val, n_iterations: int, hyperparameters):
-        """
-        Performs Bayesian optimization with caching mechanism.
-        
-        Args:
-            X_train (numpy.ndarray): Training data.
-            y_train (numpy.ndarray): Training labels.
-            X_val (numpy.ndarray): Validation data.
-            y_val (numpy.ndarray): Validation labels.
-            n_iterations (int): Number of optimization iterations.
-            hyperparameters (dict): Hyperparameter settings for the model.
-        
-        Returns:
-            Tuple of (best_params, best_score, best_quality_score).
-        """
-        best_params, best_score, best_quality_score = self._execute_bayesian_optimization(
-            X_train, y_train, X_val, y_val, n_iterations, hyperparameters
-        )
-        
-        return best_params, best_score, best_quality_score
-    
-    def _execute_bayesian_optimization(self, X_train, y_train, X_val, y_val, n_iterations, hyperparameters):
-        """
-        Core Bayesian optimization logic using Gaussian Process.
-        
-        Implements advanced optimization strategy with:
-        - Parallel processing.
-        - Dynamic search space adjustment.
-        - Performance tracking.
-        
-        Returns:
-            Tuple of (best_params, best_score).
-        """
-        
-        # Extract hyperparameters
-        kernel_constant = hyperparameters.get("kernel_constant", 1.0)
-        kernel_length_scale = hyperparameters.get("kernel_length_scale", 1.0)
+# Main Hyperparameter Optimization Class
+class BayesianHyperparameterTuning:
+    def __init__(self, X_train, y_train, X_val, y_val):
+        self.X_train = X_train
+        self.y_train = y_train
+        self.X_val = X_val
+        self.y_val = y_val
 
-        # Define Gaussian Process kernel
+    def _define_search_space(self):
+        """
+        Define the search space for Bayesian hyperparameter tuning.
+        """
+        return [
+            Real(0.1, 10.0, name="kernel_constant"),  # ConstantKernel
+            Real(0.1, 10.0, name="kernel_length_scale"),  # RBF kernel
+            Integer(1, 100, name="n_restarts_optimizer")  # GPR hyperparameter
+        ]
+
+    @use_named_args(self._define_search_space())
+    def _bayesian_objective(self, kernel_constant, kernel_length_scale, n_restarts_optimizer):
+        """
+        Objective function for Bayesian optimization.
+        """
         kernel = C(kernel_constant) * RBF(kernel_length_scale)
-        
-        # Create and train the Gaussian Process model
-        gp_model = GaussianProcessRegressor(kernel=kernel)
-        
-        # Fit the model to training data
-        gp_model.fit(X_train, y_train)
+        gpr = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=n_restarts_optimizer)
+        gpr.fit(self.X_train, self.y_train)
+        y_pred = gpr.predict(self.X_val)
+        score = r2_score(self.y_val, y_pred)
+        return -score  # Minimize the negative R² score
 
-        # Optional: Compute a quality score based on validation data
-        best_quality_score = self._compute_quality_score(gp_model, X_val, y_val)
-
-        # Placeholder for extracting best parameters and score logic (to be implemented)
-        best_params = {}  # Replace with actual parameter extraction logic
-        best_score = gp_model.score(X_val, y_val)  # Example scoring method
-        
-        return best_params, best_score, best_quality_score
-    
-    def _compute_quality_score(self, model, X_val, y_val):
+    @cached_bayesian_fit
+    def tune_hyperparameters(self, n_calls=50, random_state=42, hyperparameters=None):
         """
-        Computes a quality score for the model based on validation data.
-        
-        Args:
-            model: The trained model to evaluate.
-            X_val: Validation features.
-            y_val: Validation targets.
-
-        Returns:
-            Quality score as a float.
+        Perform Bayesian hyperparameter tuning with caching.
         """
-        # Implement quality score calculation logic here (e.g., MSE or R^2)
-        return model.score(X_val, y_val)  # Example placeholder for quality score calculation
-# End of cache_utils.py
+        search_space = self._define_search_space()
+        res_gp = gp_minimize(self._bayesian_objective, search_space, n_calls=n_calls, random_state=random_state)
+        best_hyperparameters = {
+            "kernel_constant": res_gp.x[0],
+            "kernel_length_scale": res_gp.x[1],
+            "n_restarts_optimizer": res_gp.x[2]
+        }
+        best_score = -res_gp.fun
+        return best_hyperparameters, best_score
+
+    def evaluate_best_model(self, best_hyperparameters):
+        """
+        Evaluate the best model with the tuned hyperparameters.
+        """
+        kernel = C(best_hyperparameters["kernel_constant"]) * RBF(best_hyperparameters["kernel_length_scale"])
+        gpr = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=best_hyperparameters["n_restarts_optimizer"])
+        gpr.fit(self.X_train, self.y_train)
+        y_pred = gpr.predict(self.X_val)
+        mse = mean_squared_error(self.y_val, y_pred)
+        r2 = r2_score(self.y_val, y_pred)
+        return {"MSE": mse, "R2": r2}
+
+# Example usage
+if __name__ == "__main__":
+    # Sample data
+    X_train = np.random.rand(100, 5)
+    y_train = np.random.rand(100)
+    X_val = np.random.rand(20, 5)
+    y_val = np.random.rand(20)
+
+    # Initialize tuner
+    tuner = BayesianHyperparameterTuning(X_train, y_train, X_val, y_val)
+
+    # Perform tuning
+    best_hyperparameters, best_score = tuner.tune_hyperparameters(n_calls=50, random_state=42)
+    print("Best Hyperparameters:", best_hyperparameters)
+    print("Best R^2 Score:", best_score)
+
+    # Evaluate model
+    evaluation_metrics = tuner.evaluate_best_model(best_hyperparameters)
+    print("Evaluation Metrics (MSE and R^2):", evaluation_metrics)
+
+# Cache_utils.py end
