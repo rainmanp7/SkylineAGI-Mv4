@@ -3,21 +3,73 @@ from collections import deque
 from threading import Lock
 from typing import List, Dict, Any, Tuple, Optional
 
+
+# these numbers are defined within the Compx
+# field inside the dataset file.
+# Compx is the category name where the 
+# complexity factor needs to place the number.
+# these are the complexity tiers.
+# this number arrangement should also be in the 
+# complexity factor governing mathmatica.
+# The Complexity is given to the data and 
+# placed in the area that it comes closer too
+# So the 2nd complexity factor number in the dataset has a start and end range for each piece of information after it's placed ,the 2nd part of the brain gives it a number in the range for domain transfer learning matching what it's alike too. That nember like the first winds up or down to fit also. This gives it alignment. So the 1st complexity is for placement ,the 2nd complexity is for domain likeness assignment and domain learning and transfer learning.
+
+# this number arrangement here is for complexity placement. Match the nearest and put it in the right category dataset. The information here is for the assimilation to follow and just placed here for import etc.. and how the knowledge base aka domain dataset.
+
+# each domain dataset has this num arrangement.
+
 from internal_process_monitor import InternalProcessMonitor
 
 class TieredKnowledgeBase:
     # Define complexity tiers
     TIERS = {
-        'easy': (1, 3),
-        'simp': (4, 7),
-        'norm': (8, 11),
-        'mods': (12, 15),
-        'hard': (16, 19),
-        'para': (20, 23),
-        'vice': (24, 27),
-        'zeta': (28, 31),
-        'tetris': (32, 35)
-    }
+    # 1st Section
+    'easy': (0001, 0228),
+    'simp': (0229, 0456),
+    'norm': (0457, 0684),
+
+    # 2nd Section
+    'mods': (0685, 0912),
+    'hard': (0913, 1140),
+    'para': (1141, 1368),
+
+    # 3rd Section
+    'vice': (1369, 1596),
+    'zeta': (1597, 1824),
+    'tetr': (1825, 2052),
+
+    # 4th Section
+    'eafv': (2053, 2280),
+    'sipo': (2281, 2508),
+    'nxxm': (2509, 2736),
+
+    # 5th Section
+    'mids': (2737, 2964),
+    'haod': (2965, 3192),
+    'parz': (3193, 3420),
+
+    # 6th Section
+    'viff': (3421, 3648),
+    'zexa': (3649, 3876),
+    'sip8': (3877, 4104),
+
+    # 7th Section
+    'nxVm': (4105, 4332),
+    'Vids': (4333, 4560),
+    'ha3d': (4561, 4788),
+
+    # 8th Section
+    'pfgz': (4789, 5016),
+    'vpff': (5017, 5244),
+    'z9xa': (5245, 5472),
+
+    # 9th Section
+    'Tipo': (5473, 5700),
+    'nxNm': (5701, 5928),
+    'mPd7': (5929, 6156)
+}
+
 
     def __init__(self, max_recent_items: int = 100):
         self.knowledge_bases = {tier: {} for tier in self.TIERS.keys()}
