@@ -28,25 +28,61 @@ class ModelConfig:
     suggested_metric: Callable
     quality_score: float  # New attribute to store the quality score
 # Quality change end.
-
+# updated matching dataset. Dec 3rd.
 class EnhancedModelSelector(ModelSelector):
     def __init__(self):
         super().__init__()
-        # Updated to match the 9 tiers
+        # Updated to match the 9 tiers and the complexity ranges provided
         self.complexity_tiers = {
-            'easy': (1, 3, mean_squared_error, 100),    # Simplest models, basic metric
-            'simp': (4, 7, mean_squared_error, 200),    
-            'norm': (8, 11, mean_absolute_error, 300),
-            'mods': (12, 15, mean_absolute_error, 400),
-            'hard': (16, 19, mean_absolute_error, 500),
-            'para': (20, 23, r2_score, 600),
-            'vice': (24, 27, r2_score, 700),
-            'zeta': (28, 31, r2_score, 800),
-            'tetris': (32, 35, r2_score, 1000)         # Most complex models, sophisticated metric
+            # 1st Section
+            'easy': (0001, 0228),
+            'simp': (0229, 0456),
+            'norm': (0457, 0684),
+
+            # 2nd Section
+            'mods': (0685, 0912),
+            'hard': (0913, 1140),
+            'para': (1141, 1368),
+
+            # 3rd Section
+            'vice': (1369, 1596),
+            'zeta': (1597, 1824),
+            'tetr': (1825, 2052),
+
+            # 4th Section
+            'eafv': (2053, 2280),
+            'sipo': (2281, 2508),
+            'nxxm': (2509, 2736),
+
+            # 5th Section
+            'mids': (2737, 2964),
+            'haod': (2965, 3192),
+            'parz': (3193, 3420),
+
+            # 6th Section
+            'viff': (3421, 3648),
+            'zexa': (3649, 3876),
+            'sip8': (3877, 4104),
+
+            # 7th Section
+            'nxVm': (4105, 4332),
+            'Vids': (4333, 4560),
+            'ha3d': (4561, 4788),
+
+            # 8th Section
+            'pfgz': (4789, 5016),
+            'vpff': (5017, 5244),
+            'z9xa': (5245, 5472),
+
+            # 9th Section
+            'Tipo': (5473, 5700),
+            'nxNm': (5701, 5928),
+            'mPd7': (5929, 6156)
         }
         
         # Define model configurations for each complexity range
         self.model_configs = {
+            # 1st Section
             'easy': ModelConfig(
                 model_class=LinearRegression,
                 default_params={},
@@ -68,6 +104,8 @@ class EnhancedModelSelector(ModelSelector):
                 suggested_iterations=300,
                 suggested_metric=mean_absolute_error
             ),
+
+            # 2nd Section
             'mods': ModelConfig(
                 model_class=RandomForestRegressor,
                 default_params={'n_estimators': 50},
@@ -89,6 +127,8 @@ class EnhancedModelSelector(ModelSelector):
                 suggested_iterations=600,
                 suggested_metric=r2_score
             ),
+
+            # 3rd Section
             'vice': ModelConfig(
                 model_class=GradientBoostingRegressor,
                 default_params={'n_estimators': 200},
@@ -103,10 +143,148 @@ class EnhancedModelSelector(ModelSelector):
                 suggested_iterations=800,
                 suggested_metric=r2_score
             ),
-            'tetris': ModelConfig(
+            'tetr': ModelConfig(
                 model_class=MLPRegressor,
                 default_params={'hidden_layer_sizes': (200, 100, 50)},
-                complexity_level='tetris',
+                complexity_level='tetr',
+                suggested_iterations=1000,
+                suggested_metric=r2_score
+            ),
+
+            # 4th Section
+            'eafv': ModelConfig(
+                model_class=LinearRegression,
+                default_params={},
+                complexity_level='eafv',
+                suggested_iterations=100,
+                suggested_metric=mean_squared_error
+            ),
+            'sipo': ModelConfig(
+                model_class=Ridge,
+                default_params={'alpha': 1.0},
+                complexity_level='sipo',
+                suggested_iterations=200,
+                suggested_metric=mean_squared_error
+            ),
+            'nxxm': ModelConfig(
+                model_class=Lasso,
+                default_params={'alpha': 1.0},
+                complexity_level='nxxm',
+                suggested_iterations=300,
+                suggested_metric=mean_absolute_error
+            ),
+
+            # 5th Section
+            'mids': ModelConfig(
+                model_class=RandomForestRegressor,
+                default_params={'n_estimators': 50},
+                complexity_level='mids',
+                suggested_iterations=400,
+                suggested_metric=mean_absolute_error
+            ),
+            'haod': ModelConfig(
+                model_class=RandomForestRegressor,
+                default_params={'n_estimators': 100},
+                complexity_level='haod',
+                suggested_iterations=500,
+                suggested_metric=mean_absolute_error
+            ),
+            'parz': ModelConfig(
+                model_class=GradientBoostingRegressor,
+                default_params={'n_estimators': 100},
+                complexity_level='parz',
+                suggested_iterations=600,
+                suggested_metric=r2_score
+            ),
+
+            # 6th Section
+            'viff': ModelConfig(
+                model_class=GradientBoostingRegressor,
+                default_params={'n_estimators': 200},
+                complexity_level='viff',
+                suggested_iterations=700,
+                suggested_metric=r2_score
+            ),
+            'zexa': ModelConfig(
+                model_class=MLPRegressor,
+                default_params={'hidden_layer_sizes': (100, 50)},
+                complexity_level='zexa',
+                suggested_iterations=800,
+                suggested_metric=r2_score
+            ),
+            'sip8': ModelConfig(
+                model_class=MLPRegressor,
+                default_params={'hidden_layer_sizes': (200, 100, 50)},
+                complexity_level='sip8',
+                suggested_iterations=1000,
+                suggested_metric=r2_score
+            ),
+
+            # 7th Section
+            'nxVm': ModelConfig(
+                model_class=LinearRegression,
+                default_params={},
+                complexity_level='nxVm',
+                suggested_iterations=100,
+                suggested_metric=mean_squared_error
+            ),
+            'Vids': ModelConfig(
+                model_class=Ridge,
+                default_params={'alpha': 1.0},
+                complexity_level='Vids',
+                suggested_iterations=200,
+                suggested_metric=mean_squared_error
+            ),
+            'ha3d': ModelConfig(
+                model_class=Lasso,
+                default_params={'alpha': 1.0},
+                complexity_level='ha3d',
+                suggested_iterations=300,
+                suggested_metric=mean_absolute_error
+            ),
+
+            # 8th Section
+            'pfgz': ModelConfig(
+                model_class=RandomForestRegressor,
+                default_params={'n_estimators': 50},
+                complexity_level='pfgz',
+                suggested_iterations=400,
+                suggested_metric=mean_absolute_error
+            ),
+            'vpff': ModelConfig(
+                model_class=RandomForestRegressor,
+                default_params={'n_estimators': 100},
+                complexity_level='vpff',
+                suggested_iterations=500,
+                suggested_metric=mean_absolute_error
+            ),
+            'z9xa': ModelConfig(
+                model_class=GradientBoostingRegressor,
+                default_params={'n_estimators': 100},
+                complexity_level='z9xa',
+                suggested_iterations=600,
+                suggested_metric=r2_score
+            ),
+
+            # 9th Section
+            'Tipo': ModelConfig(
+                model_class=GradientBoostingRegressor,
+                default_params={'n_estimators': 200},
+                complexity_level='Tipo',
+                suggested_iterations=700,
+                suggested_metric=r2_score
+            ),
+            'nxNm': ModelConfig(
+                model_class=MLPRegressor,
+                default_params={'hidden_layer_sizes': (100, 50)},
+                complexity_level='nxNm',
+                suggested_iterations=800,
+                suggested_metric=r2_score
+            ),
+            'mPd7': ModelConfig(
+                model_class=MLPRegressor,
+                default_params={'hidden_layer_sizes': (200, 100, 50)},
+                complexity_level='mPd7',
                 suggested_iterations=1000,
                 suggested_metric=r2_score
             )
