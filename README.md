@@ -24,6 +24,14 @@ SkylineAGI-Mv4 is an Artificial General Intelligence (AGI) framework focusing on
 5. **`docs/`**: Documentation for system design and API details.
 6. **`tests/`**: Unit tests to validate system functionality.
 
+### **Requirements**
+1. Current running environment:
+   ```bash
+   Test Environment: linux riplit
+   Python Tools 3.12.5
+   pyright-extended 2.0.12
+   ```
+
 ### **Installation**
 1. Clone the repository:
    ```bash
