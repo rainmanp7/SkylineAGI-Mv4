@@ -35,49 +35,41 @@ class EnhancedModelSelector(ModelSelector):
         # Updated to match the 9 tiers and the complexity ranges provided
         self.complexity_tiers = {
             # 1st Section
-            'easy': (0001, 0228),
-            'simp': (0229, 0456),
-            'norm': (0457, 0684),
-
-            # 2nd Section
-            'mods': (0685, 0912),
-            'hard': (0913, 1140),
-            'para': (1141, 1368),
-
-            # 3rd Section
-            'vice': (1369, 1596),
-            'zeta': (1597, 1824),
-            'tetr': (1825, 2052),
-
-            # 4th Section
-            'eafv': (2053, 2280),
-            'sipo': (2281, 2508),
-            'nxxm': (2509, 2736),
-
-            # 5th Section
-            'mids': (2737, 2964),
-            'haod': (2965, 3192),
-            'parz': (3193, 3420),
-
-            # 6th Section
-            'viff': (3421, 3648),
-            'zexa': (3649, 3876),
-            'sip8': (3877, 4104),
-
-            # 7th Section
-            'nxVm': (4105, 4332),
-            'Vids': (4333, 4560),
-            'ha3d': (4561, 4788),
-
-            # 8th Section
-            'pfgz': (4789, 5016),
-            'vpff': (5017, 5244),
-            'z9xa': (5245, 5472),
-
-            # 9th Section
-            'Tipo': (5473, 5700),
-            'nxNm': (5701, 5928),
-            'mPd7': (5929, 6156)
+    'easy': (1111, 1389),
+    'simp': (1390, 1668),
+    'norm': (1669, 1947),
+    # 2nd Section
+    'mods': (1948, 2226),
+    'hard': (2227, 2505),
+    'para': (2506, 2784),
+    # 3rd Section
+    'vice': (2785, 3063),
+    'zeta': (3064, 3342),
+    'tetr': (3343, 3621),
+    # 4th Section
+    'eafv': (3622, 3900),
+    'sipo': (3901, 4179),
+    'nxxm': (4180, 4458),
+    # 5th Section
+    'mids': (4459, 4737),
+    'haod': (4738, 5016),
+    'parz': (5017, 5295),
+    # 6th Section
+    'viff': (5296, 5574),
+    'zexa': (5575, 5853),
+    'sip8': (5854, 6132),
+    # 7th Section
+    'nxVm': (6133, 6411),
+    'Vids': (6412, 6690),
+    'ha3d': (6691, 6969),
+    # 8th Section
+    'pfgz': (6970, 7248),
+    'vpff': (7249, 7527),
+    'z9xa': (7528, 7806),
+    # 9th Section
+    'Tipo': (7807, 8085),
+    'nxNm': (8086, 8364),
+    'mPd7': (8365, 9918)
         }
         
         # Define model configurations for each complexity range
