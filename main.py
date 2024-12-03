@@ -194,6 +194,8 @@ if __name__ == "__main__":
         print("Startup diagnostics failed. Exiting the application.")
         exit(1)
 
+    print("Loading is complete.")  # Final confirmation
+
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
