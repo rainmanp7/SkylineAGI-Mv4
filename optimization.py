@@ -1,5 +1,4 @@
 
-```python
 # Beginning of optimization.py
 # Last updated: Nov 23, 2024
 # Purpose: Handles hyperparameter optimization using Bayesian methods and dynamic adjustment of the search space.
@@ -149,4 +148,3 @@ class HyperparameterOptimization:
 
 
 # End of optimization.py
-```
