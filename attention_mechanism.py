@@ -1,6 +1,4 @@
 # Created Nov 14th 2024
-
-```python
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -67,4 +65,3 @@ class ContextAwareAttention(nn.Module):
         output = self.dropout(context_vector)
 
         return output
-```
