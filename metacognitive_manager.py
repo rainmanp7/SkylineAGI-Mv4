@@ -1,5 +1,4 @@
 
-```python
 # metacognitive_manager.py
 
 from dataclasses import dataclass
