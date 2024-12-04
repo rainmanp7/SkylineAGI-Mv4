@@ -2,7 +2,6 @@
 # removed the simple medium complex
 # models.py
 # memory added fitted Nov14
-````python
 
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
@@ -136,7 +135,5 @@ class ExpandedModelValidator(ModelValidator):
         except AttributeError as e:
             logging.warning(f"Could not compute expanded metrics: {str(e)}")
             return metrics
-
-````
 
 ### End Model Validation and Monitoring
