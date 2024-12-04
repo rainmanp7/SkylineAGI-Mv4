@@ -4,8 +4,6 @@
 # install required dependencies
 # pip install psutil
 
-````python
-
 import psutil
 import time
 from collections import deque
@@ -96,6 +94,6 @@ class InternalProcessMonitor:
             "peak_cpu": max(task_data["cpu_usage"]) if task_data["cpu_usage"] else 0,
             "peak_memory": max(task_data["memory_usage"]) if task_data["memory_usage"] else 0
         }
-# ````
+
 # Internal Process Monitor end.
 
