@@ -31,6 +31,43 @@ SkylineAGI-Mv4 is an Artificial General Intelligence (AGI) framework focusing on
    Python Tools 3.12.5
    pyright-extended 2.0.12
    ```
+### **Computers Used**
+1: Cellphone = Infinix Note12.
+
+### **Environments**
+Environment Tools
+```bash
+  Remote Test Environments: 
+1: Replit
+2: Google Colab
+
+   Construction AI: 
+
+1: Claude 3 Haiku-200k, 
+2: Perplexity, -GitHub capable
+3: Chatgpt, -GitHub capable
+4: Cortex, Semi GitHub capable
+5: Bard/Palm/Gemini.
+
+   Code Checking AI:
+
+1: Blackbox.ai, CyberCoder
+2: Chatgpt, 
+3: Perplexity, 
+4: Google Gemini, 
+5: Nvidia Llama 3.2 Nemotron
+6: Claude 3 Haiku-200k
+7: Cortex
+8: Google Colab Compiler
+9: Replit Compiler -GitHub capable
+   ```
+
+### **Dependencies**
+Environment Dependencies:
+   ```bash
+   Python Tools 3.12.5
+   pyright-extended 2.0.12
+   ```
 
 ### **Installation**
 1. Clone the repository:
