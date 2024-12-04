@@ -1,0 +1,15 @@
+# Runtime Dependencies for SkylineAGI-Mv4
+
+# Core Dependencies
+python==3.12.5  # Note: pip install doesn't enforce Python version; use pyenv/virtualenv to manage
+
+# Machine Learning & AI
+tensorflow
+keras
+
+# Scientific Computing
+scipy
+numpy
+
+# Data Handling & Storage
+pandas
