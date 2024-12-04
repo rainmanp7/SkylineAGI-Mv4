@@ -41,16 +41,16 @@ Environment Tools
 1: Replit
 2: Google Colab
 
-   Construction AI: 
-
+   Free Construction AI: 
+0: POE
 1: Claude 3 Haiku-200k, 
 2: Perplexity, -GitHub capable
 3: Chatgpt, -GitHub capable
 4: Cortex, Semi GitHub capable
 5: Bard/Palm/Gemini.
 
-   Code Checking AI:
-
+   Free Code Checking AI:
+0: POE 
 1: Blackbox.ai, CyberCoder
 2: Chatgpt, 
 3: Perplexity, 
