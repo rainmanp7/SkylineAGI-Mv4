@@ -1,5 +1,4 @@
 
-# Beginning of config.json
 {
   "inputs": [
     "wi0",
@@ -66,4 +65,3 @@
     }
 }
 
-# End of config.json
