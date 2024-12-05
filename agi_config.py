@@ -15,3 +15,9 @@ class AGIConfiguration:
     
     def get_dynamic_setting(self, key: str, default=None):
         return self.config.get(key, default)
+
+    def get_database_settings(self) -> Dict[str, Any]:
+        return self.config.get('database', {})
+
+    def get_knowledge_base_path(self) -> str:
+        return self.get_database_settings().get('knowledge_base_path', 'knowledge_base')
