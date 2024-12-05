@@ -1,9 +1,10 @@
 
-#Begin main.py
+# Begin main.py
 
 import logging
 import asyncio
 from typing import List
+import json
 
 # Import necessary modules
 from domain_knowledge_base import DomainKnowledgeBase
@@ -25,6 +26,22 @@ from database import DatabaseManager  # Assuming a DatabaseManager class
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# **Added get_dataset_path function for centralized dataset management**
+def get_dataset_path(domain: str, level: int) -> str:
+    """
+    Retrieves the dataset path from domain_dataset.json.
+    
+    Args:
+    - domain (str): Domain of the dataset (e.g., 'math', 'science')
+    - level (int): Level of the dataset (e.g., 1, 2, 3)
+    
+    Returns:
+    - dataset_path (str): Path to the specified dataset
+    """
+    with open('domain_dataset.json') as f:
+        datasets = json.load(f)
+    return datasets[domain][f"level_{level}"]
 
 # Run Startup Diagnostics
 def run_startup_diagnostics() -> bool:
@@ -113,33 +130,36 @@ class SkylineAGI:
         self.async_process_manager = AsyncProcessManager()
         self.database_manager = DatabaseManager()  # Database integration
 
+    # **Updated process_domain to utilize get_dataset_path**
     async def process_domain(self, domain: str):
         """Asynchronously process a specific domain"""
         try:
             complexity_factor = self.get_complexity_factor(domain)
-            datasets = self.knowledge_base.get_dataset_paths(domain)
-            for i, dataset in enumerate(datasets):
-                await self.process_dataset(domain, dataset, complexity_factor, i)
+            # **Using get_dataset_path for centralized management**
+            dataset_paths = [get_dataset_path(domain, level) for level in range(1, 4)]  # Assuming levels 1-3
+            for i, dataset_path in enumerate(dataset_paths):
+                await self.process_dataset(domain, dataset_path, complexity_factor, i)
         except Exception as e:
             logger.error(f"Error processing domain {domain}: {e}")
 
-    async def process_dataset(self, domain: str, dataset: str, complexity: float, index: int):
+    # **Updated process_dataset to reflect changes**
+    async def process_dataset(self, domain: str, dataset_path: str, complexity: float, index: int):
         """Process individual datasets with complexity-aware optimization"""
         try:
             optimizer = BayesianOptimizer()  
-            optimized_params = optimizer.optimize(dataset, complexity)  
+            optimized_params = optimizer.optimize(dataset_path, complexity)  
 
             # Load data with optimized parameters
             loaded_data = self.knowledge_base.load_domain_dataset(domain, index, optimized_params)
-            self.internal_monitor.track_dataset_processing(dataset, complexity)
+            self.internal_monitor.track_dataset_processing(dataset_path, complexity)
             self.cross_domain_generator.analyze_dataset(loaded_data)
             
             # Database Update (Example)
-            self.database_manager.update_dataset_status(domain, dataset, "PROCESSED")
+            self.database_manager.update_dataset_status(domain, dataset_path, "PROCESSED")
         except Exception as e:
             logger.error(f"Dataset processing error: {e}", exc_info=True)
             # Database Update on Failure (Example)
-            self.database_manager.update_dataset_status(domain, dataset, "FAILED")
+            self.database_manager.update_dataset_status(domain, dataset_path, "FAILED")
 
     def get_complexity_factor(self, domain: str) -> float:
         """Determine complexity factor based on domain characteristics"""
@@ -175,8 +195,8 @@ async def main():
         # Define domains to process
         domains = ['Math', 'Science']  
 
-        # Filter domains to skip ones without datasets
-        valid_domains = [domain for domain in domains if agi.knowledge_base.get_dataset_paths(domain)]
+        # **Filter domains to skip ones without datasets (updated)**
+        valid_domains = [domain for domain in domains if any(get_dataset_path(domain, level) for level in range(1, 4))]
 
         if not valid_domains:
             logger.warning("No valid domains with datasets found. Exiting...")
