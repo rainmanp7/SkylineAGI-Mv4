@@ -1,31 +1,28 @@
-
-```json
 {
   "Math": {
-    "datasets": [
-      "Math_D1.csv",
-      "Math_D2.csv",
-      "Math_D3.csv",
-      "Math_D4.csv",
-      "Math_D5.csv",
-      "Math_D6.csv",
-      "Math_D7.csv",
-      "Math_D8.csv",
-      "Math_D9.csv"
-    ]
+    "datasets": {
+      "level_1": "knowledge_base/Math_D1.csv",
+      "level_2": "knowledge_base/Math_D2.csv",
+      "level_3": "knowledge_base/Math_D3.csv",
+      "level_4": "knowledge_base/Math_D4.csv",
+      "level_5": "knowledge_base/Math_D5.csv",
+      "level_6": "knowledge_base/Math_D6.csv",
+      "level_7": "knowledge_base/Math_D7.csv",
+      "level_8": "knowledge_base/Math_D8.csv",
+      "level_9": "knowledge_base/Math_D9.csv"
+    }
   },
   "Science": {
-    "datasets": [
-      "Science_D1.csv",
-      "Science_D2.csv",
-      "Science_D3.csv",
-      "Science_D4.csv",
-      "Science_D5.csv",
-      "Science_D6.csv",
-      "Science_D7.csv",
-      "Science_D8.csv",
-      "Science_D9.csv"
-    ]
+    "datasets": {
+      "level_1": "knowledge_base/Science_D1.csv",
+      "level_2": "knowledge_base/Science_D2.csv",
+      "level_3": "knowledge_base/Science_D3.csv",
+      "level_4": "knowledge_base/Science_D4.csv",
+      "level_5": "knowledge_base/Science_D5.csv",
+      "level_6": "knowledge_base/Science_D6.csv",
+      "level_7": "knowledge_base/Science_D7.csv",
+      "level_8": "knowledge_base/Science_D8.csv",
+      "level_9": "knowledge_base/Science_D9.csv"
+    }
   }
 }
-```
