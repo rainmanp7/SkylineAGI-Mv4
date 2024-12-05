@@ -1,4 +1,4 @@
-````json
+
 # Beginning of config.json
 {
   "inputs": [
@@ -60,6 +60,10 @@
   "model_save_dir": "./models",
   "num_parallel_jobs": 4
 }
+{
+    "database": {
+        "knowledge_base_path": "knowledge_base"
+    }
+}
 
 # End of config.json
-`````
