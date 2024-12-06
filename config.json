@@ -61,7 +61,8 @@
 }
 {
     "database": {
-        "knowledge_base_path": "knowledge_base"
+        "knowledge_base_path": "knowledge_base",
+        "domain_dataset_config": "domain_dataset.json"
     }
 }
 
