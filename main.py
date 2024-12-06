@@ -144,34 +144,66 @@ class SkylineAGI:
         except Exception as e:
             logger.error(f"Error processing domain {domain}: {e}")
 
-    # **Updated process_dataset to reflect changes**
-    async def process_dataset(self, domain: str, dataset_path: str, complexity: float, index: int):
-        """Process individual datasets with complexity-aware optimization"""
-        try:
-            optimizer = BayesianOptimizer()  
-            optimized_params = optimizer.optimize(dataset_path, complexity)  
 
-            # Load data with optimized parameters
-            loaded_data = self.knowledge_base.load_domain_dataset(domain, index, optimized_params)
-            self.internal_monitor.track_dataset_processing(dataset_path, complexity)
-            self.cross_domain_generator.analyze_dataset(loaded_data)
-            
-            # Database Update (Example)
+
+# Begin Updated Dec5 th 
+    # **Updated process_dataset to reflect changesUpdated Code)**
+
+async def process_dataset(self, domain: str, dataset_path: str, complexity: float, index: int):
+    """
+    Process individual datasets with complexity-aware optimization.
+
+    Args:
+    - domain (str): Domain of the dataset.
+    - dataset_path (str): Path to the dataset.
+    - complexity (float): Complexity factor for the dataset.
+    - index (int): Index of the dataset (e.g., level).
+
+    Returns:
+    - None
+    """
+    try:
+        optimizer = BayesianOptimizer()  
+        optimized_params = optimizer.optimize(dataset_path, complexity)  
+
+        # Load data with optimized parameters
+        loaded_data = self.knowledge_base.load_domain_dataset(domain, index, optimized_params)
+        self.internal_monitor.track_dataset_processing(dataset_path, complexity)
+        self.cross_domain_generator.analyze_dataset(loaded_data)
+        
+        # Database Update (Example)
+        try:
             self.database_manager.update_dataset_status(domain, dataset_path, "PROCESSED")
-        except Exception as e:
-            logger.error(f"Dataset processing error: {e}", exc_info=True)
-            # Database Update on Failure (Example)
-            self.database_manager.update_dataset_status(domain, dataset_path, "FAILED")
-
-    def get_complexity_factor(self, domain: str) -> float:
-        """Determine complexity factor based on domain characteristics"""
+        except Exception as db_e:
+            logger.error(f"Database update error (processed): {db_e}")
+    except Exception as e:
+        logger.error(f"Dataset processing error for {domain} at {dataset_path}: {e}", exc_info=True)
+        # Database Update on Failure (with separate try-except)
         try:
-            base_complexity = self.config.get_dynamic_setting('complexity_factor', 10)
-            domain_complexity = self.complexity_analyzer.analyze_domain(domain)
-            return base_complexity * domain_complexity
-        except Exception as e:
-            logger.warning(f"Complexity calculation error: {e}", exc_info=True)
-            return 10.0  
+            self.database_manager.update_dataset_status(domain, dataset_path, "FAILED")
+        except Exception as db_e:
+            logger.error(f"Database update error (failed): {db_e}")
+        raise  # Re-raise the original error for further investigation
+# end Dec5 update
+
+#dec5 2nd part
+    def get_complexity_factor(self, domain: str) -> float:
+    """
+    Determine complexity factor based on domain characteristics.
+
+    Args:
+    - domain (str): The domain for which to calculate the complexity factor.
+
+    Returns:
+    - float: The calculated complexity factor (base complexity * domain complexity).
+    """
+    try:
+        base_complexity: float = self.config.get_dynamic_setting('complexity_factor', 10)
+        domain_complexity: float = self.complexity_analyzer.analyze_domain(domain)
+        return base_complexity * domain_complexity
+    except Exception as e:
+        logger.warning(f"Complexity calculation error for domain '{domain}': {e}", exc_info=True)
+        return 10.0  # Default complexity factor on error
 
     async def run_metacognitive_evaluation(self):
         """Run metacognitive evaluation on processed datasets"""
