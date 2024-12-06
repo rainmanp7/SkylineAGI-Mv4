@@ -33,7 +33,7 @@ def get_dataset_path(domain: str, level: int) -> str:
     Retrieves the dataset path from domain_dataset.json.
     
     Args:
-    - domain (str): Domain of the dataset (e.g., 'math', 'science')
+    - domain (str): Domain of the dataset (e.g., 'Math', 'Science')
     - level (int): Level of the dataset (e.g., 1, 2, 3)
     
     Returns:
@@ -41,7 +41,9 @@ def get_dataset_path(domain: str, level: int) -> str:
     """
     with open('domain_dataset.json') as f:
         datasets = json.load(f)
-    return datasets[domain][f"level_{level}"]
+    # Construct the key to match the updated json structure
+    key = f"level_{level}"
+    return datasets.get(domain, {}).get(key, None)  # Returns None if not found
 
 # Run Startup Diagnostics
 def run_startup_diagnostics() -> bool:
