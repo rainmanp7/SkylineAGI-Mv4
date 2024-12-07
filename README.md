@@ -17,8 +17,8 @@ SkylineAGI-Mv4 is an Artificial General Intelligence (AGI) framework focusing on
 - **Dynamic Adaptation**: Continuously adjusts based on domain complexity and evolving objectives.
 
 ### **Folder and File Structure**
-1. **`src/`**: Core source code, including logic for dynamic data handling and self-learning.
-2. **`data/`**: Stores domain-specific datasets (e.g., `math_dataset1.csv` to `math_dataset9.csv`).
+1. Core source code, including logic for dynamic data handling and self-learning.
+2. **`knowledge_base`**: Stores domain-specific datasets (e.g., `math_dataset1.csv` to `math_dataset9.csv`).
 3. **`config.json`**: Central configuration file for dynamic activation functions, complexity factors, and knowledge base settings.
 4. **`domain_dataset.json`**: Master dataset list referencing file paths and metadata.
 5. **`docs/`**: Documentation for system design and API details.
@@ -27,13 +27,10 @@ SkylineAGI-Mv4 is an Artificial General Intelligence (AGI) framework focusing on
 ### **Requirements**
 1. Current running environment:
    ```bash
-   Test Environment: linux riplit
+   Test Environment: linux or riplit etc.
    Python Tools 3.12.5
    pyright-extended 2.0.12
    ```
-### **Computers Used**
-1: Cellphone = Infinix Note12.
-
 ### **Environments**
 Environment Tools
 ```bash
