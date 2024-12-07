@@ -79,7 +79,7 @@ Environment Dependencies:
 3. Configure the knowledge base in `config.json`.
 
 ### **Usage**
-1. Add datasets to the `data/` folder.
+1. Add datasets to the `knowledge_base` folder.
 2. Define domain-specific complexity in `domain_dataset.json`.
 3. Run the main AGI script:
    ```bash
