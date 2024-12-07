@@ -1,6 +1,3 @@
-# Cross Domain Generalization.
-# Cross domain communication.
-
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
@@ -11,65 +8,111 @@ from keras.layers import Dense, Flatten
 from keras.applications import VGG16  # Example of a pre-trained model for image data
 from keras.preprocessing.image import ImageDataGenerator
 import librosa  # For audio processing
+import json
+import os
 
 class CrossDomainGeneralization:
-    def __init__(self, knowledge_base, model):
+    """
+    A class for cross-domain generalization, enabling knowledge transfer between domains.
+    
+    Attributes:
+    - knowledge_base: The knowledge base instance.
+    - model: The model instance.
+    - domain_dataset_config: The path to the domain dataset configuration file.
+    - domain_datasets: A dictionary of domain datasets.
+    """
+
+    def __init__(self, knowledge_base, model, domain_dataset_config='domain_dataset.json'):
+        """
+        Initialize the CrossDomainGeneralization class.
+        
+        Args:
+        - knowledge_base: The knowledge base instance.
+        - model: The model instance.
+        - domain_dataset_config: The path to the domain dataset configuration file.
+        """
         self.knowledge_base = knowledge_base
         self.model = model
+        self.domain_dataset_config = domain_dataset_config
+        self.domain_datasets = self.load_domain_datasets()
+
+    def load_domain_datasets(self):
+        """
+        Load domain datasets from the configuration file.
+        
+        Returns:
+        - A dictionary of domain datasets.
+        """
+        with open(self.domain_dataset_config, 'r') as f:
+            return json.load(f)
 
     def load_and_preprocess_data(self, domain):
-        """Load and preprocess data from the given domain."""
+        """
+        Load and preprocess data from the given domain.
+        
+        Args:
+        - domain: The domain name.
+        
+        Returns:
+        - Preprocessed data (varies depending on the domain).
+        """
         try:
-            if domain == 'text':
-                data = pd.read_csv('text_data.csv')
-                features = data['text']  # Assuming 'text' is the column with textual data
-                labels = data['target']
-                # Placeholder for actual text processing logic (tokenization, etc.)
-                # For example using TF-IDF or similar techniques
-                X_train, X_val, y_train, y_val = train_test_split(features, labels, test_size=0.2, random_state=42)
+            domain_dataset = self.domain_datasets.get(domain)
+            if domain_dataset:
+                file_path = domain_dataset
+                if os.path.isfile(file_path):
+                    if domain == 'images':
+                        # Load image data (assumed to be in a directory)
+                        datagen = ImageDataGenerator(rescale=1./255)
+                        train_generator = datagen.flow_from_directory(os.path.dirname(file_path) + '/train', target_size=(224, 224), batch_size=32)
+                        validation_generator = datagen.flow_from_directory(os.path.dirname(file_path) + '/val', target_size=(224, 224), batch_size=32)
 
-            elif domain == 'images':
-                # Load image data (assumed to be in a directory)
-                datagen = ImageDataGenerator(rescale=1./255)
-                train_generator = datagen.flow_from_directory('image_data/train', target_size=(224, 224), batch_size=32)
-                validation_generator = datagen.flow_from_directory('image_data/val', target_size=(224, 224), batch_size=32)
+                        return train_generator, validation_generator
 
-                return train_generator, validation_generator
+                    elif domain == 'audio':
+                        # Load audio data (placeholder for actual audio loading logic)
+                        audio_data = []  # List to hold audio features
+                        labels = []  # Corresponding labels for audio files
+                        # Example: load an audio file using librosa
+                        y, sr = librosa.load(file_path)
+                        mfccs = librosa.feature.mfcc(y=y, sr=sr)
+                        audio_data.append(mfccs)
+                        labels.append(1)  # Placeholder label
 
-            elif domain == 'audio':
-                # Load audio data (placeholder for actual audio loading logic)
-                audio_data = []  # List to hold audio features
-                labels = []  # Corresponding labels for audio files
-                # Example: load an audio file using librosa
-                y, sr = librosa.load('audio_file.wav')
-                mfccs = librosa.feature.mfcc(y=y, sr=sr)
-                audio_data.append(mfccs)
-                labels.append(1)  # Placeholder label
+                        return np.array(audio_data), np.array(labels)
 
-                return np.array(audio_data), np.array(labels)
+                    else:
+                        data = pd.read_csv(file_path)
+                        features = data.drop('target', axis=1)
+                        labels = data['target']
+                        
+                        scaler = StandardScaler()
+                        features_scaled = scaler.fit_transform(features)
 
-            elif domain == 'time_series':
-                # Load time series data (placeholder for actual time series loading logic)
-                pass  # Implement time series loading and preprocessing logic
+                        X_train, X_val, y_train, y_val = train_test_split(features_scaled, labels, test_size=0.2, random_state=42)
+
+                        return X_train, y_train, X_val, y_val
+
+                else:
+                    print(f"File not found for domain '{domain}'.")
+                    return None, None, None, None
 
             else:
-                data = pd.read_csv(f"{domain}_data.csv")
-                features = data.drop('target', axis=1)
-                labels = data['target']
-                
-                scaler = StandardScaler()
-                features_scaled = scaler.fit_transform(features)
+                print(f"No dataset found for domain '{domain}'.")
+                return None, None, None, None
 
-                X_train, X_val, y_train, y_val = train_test_split(features_scaled, labels, test_size=0.2, random_state=42)
-
-            return X_train, y_train, X_val, y_val
-
-        except FileNotFoundError:
-            print(f"Data file for domain '{domain}' not found.")
+        except Exception as e:
+            print(f"Error loading data for domain '{domain}': {str(e)}")
             return None, None, None, None
 
     def transfer_knowledge(self, source_domain, target_domain):
-        """Transfer knowledge from the source domain to the target domain."""
+        """
+        Transfer knowledge from the source domain to the target domain.
+        
+        Args:
+        - source_domain: The source domain name.
+        - target_domain: The target domain name.
+        """
         source_knowledge = self.knowledge_base.query(source_domain)
 
         if not source_knowledge:
@@ -91,7 +134,12 @@ class CrossDomainGeneralization:
             print("Knowledge transferred from {} to {}.".format(source_domain, target_domain))
 
     def fine_tune_model(self, domain):
-        """Fine-tune the model for the given domain."""
+        """
+        Fine-tune the model for the given domain.
+        
+        Args:
+        - domain: The domain name.
+        """
         X_train, y_train, X_val, y_val = self.load_and_preprocess_data(domain)
 
         if X_train is None:
@@ -108,7 +156,15 @@ class CrossDomainGeneralization:
         print(f"Model fine-tuned on '{domain}' with accuracy: {accuracy:.2f}")
 
     def evaluate_cross_domain_performance(self, domains):
-        """Evaluate the model's performance across multiple domains."""
+        """
+        Evaluate the model's performance across multiple domains.
+        
+        Args:
+        - domains: A list of domain names.
+        
+        Returns:
+        - A dictionary with performance metrics for each domain.
+        """
         results = {}
         
         for domain in domains:
@@ -128,10 +184,35 @@ class CrossDomainGeneralization:
                 results[domain] = {
                     'accuracy': accuracy,
                     'precision': precision,
-                    'recall': recall,
+                    'ecall': recall, # Corrected the key here
                     'f1_score': f1,
                 }
         
         return results
 
-# End of cross_domain_generalization.py
+
+# Example Usage (in comment form)
+"""
+# Initialize the CrossDomainGeneralization class
+# cdg = CrossDomainGeneralization(None, None)  # Replace with actual knowledge base and model instances
+
+# Load and preprocess data for a specific domain
+# X_train, y_train, X_val, y_val = cdg.load_and_preprocess_data('Math_D1')
+
+# Fine-tune the model for a specific domain
+# cdg.fine_tune_model('Math_D1')
+
+# Evaluate cross-domain performance
+# domains = ['Math_D1', 'Math_D2', 'Science_S1']
+# results = cdg.evaluate_cross_domain_performance(domains)
+# print(results)
+"""
+
+
+if __name__ == "__main__":
+    # Test the CrossDomainGeneralization class when run directly
+    cdg = CrossDomainGeneralization(None, None)  # Replace with actual knowledge base and model instances
+    # Add test code here, e.g.,
+    # domains = ['Math_D1', 'Math_D2', 'Science_S1']
+    # results = cdg.evaluate_cross_domain_performance(domains)
+    # print(results)
