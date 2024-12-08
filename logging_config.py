@@ -69,7 +69,17 @@ def main():
     except Exception as e:
         logger.exception("An error occurred: %s", e)
     finally:
-        logger.info("Application finished.")
+    # Verify asynchronous operation completion (if applicable)
+    async_ops_completed.wait()
+
+    # Flush and close resources explicitly (if applicable)
+    file_handler.flush()
+    file_handler.close()
+
+    # Short delay for system resource release (optional)
+    time.sleep(0.1)
+
+    logger.info("Operation completed.")
 
 if __name__ == "__main__":
     main()
