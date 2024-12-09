@@ -1,5 +1,5 @@
 # SkylineAGI-Mv4
-Skyline Artificial General intelligence. AGI Machine Learning Model
+Skyline Artificial General intelligence. AGI Machine Learning Model.
 
 Project Creation Location: 
 Philippines, Mindanao, Davao Del Sur, Santacruz
